@@ -16,6 +16,10 @@
   margin: 16px;
 }
 
+.cards-card-body {
+  background-color: antiquewhite;
+}
+
 .cards .cards-card-image {
   line-height: 0;
 }
