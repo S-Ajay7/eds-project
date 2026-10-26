@@ -1,42 +1,193 @@
-.navbar {
-  background: #1f2937;
-  padding: 0 1.5rem;
+:root {
+  --nav-dark: #0f1b2d;
+  --nav-darker: #09121f;
+  --nav-accent: #f5a623;
+  --nav-text: #e6e9ef;
+  --nav-muted: #9aa4b5;
+  --nav-font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
-.navbar nav {
+.navbar {
+  font-family: var(--nav-font);
+  position: relative;
+  z-index: 100;
+  background: #fff;
+}
+
+/* Top info bar */
+.navbar .navbar-topbar {
+  background: var(--nav-darker);
+  color: var(--nav-muted);
+  font-size: 0.875rem;
+  padding: 0.5rem 1.5rem;
+}
+
+.navbar .navbar-topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar .navbar-topbar a {
+  color: var(--nav-muted);
+  text-decoration: none;
+}
+
+.navbar .navbar-topbar a:hover {
+  color: var(--nav-text);
+}
+
+/* Logo and contact row */
+.navbar .navbar-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.navbar .navbar-logo img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.navbar .navbar-contact {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navbar .navbar-contact-item span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--nav-muted);
+  letter-spacing: 0.05em;
+}
+
+.navbar .navbar-contact-item strong {
+  font-size: 0.95rem;
+  color: var(--nav-dark);
+}
+
+.navbar .navbar-cta {
+  background: var(--nav-accent);
+  color: var(--nav-dark);
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: filter 0.2s ease;
+}
+
+.navbar .navbar-cta:hover {
+  filter: brightness(1.08);
+}
+
+/* Main menu bar */
+.navbar nav {
+  background: var(--nav-dark);
+}
+
+.navbar nav > div {
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 64px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
 }
 
 .navbar-links {
   display: flex;
-  gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
-.navbar-links a {
-  color: #e5e7eb;
+.navbar-links > li {
+  position: relative;
+}
+
+.navbar-links > li > a {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 60px;
+  padding: 0 1rem;
+  color: var(--nav-text);
   text-decoration: none;
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.navbar-links > li > a:hover,
+.navbar-links > li > a[aria-current='page'] {
+  color: var(--nav-accent);
+}
+
+/* Caret on items that have a dropdown */
+.navbar-links > li.has-submenu > a::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+/* Dropdown panel */
+.navbar .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  list-style: none;
+  margin: 0;
   padding: 0.5rem 0;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-top: 3px solid var(--nav-accent);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
 
-.navbar-links a:hover,
-.navbar-links a:focus-visible,
-.navbar-links a[aria-current='page'] {
-  color: #ffffff;
-  border-bottom-color: #3b82f6;
+.navbar-links > li:hover > .submenu,
+.navbar-links > li:focus-within > .submenu,
+.navbar-links > li.open > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-/* Hamburger button: hidden on desktop */
+.navbar .submenu a {
+  display: block;
+  padding: 0.6rem 1.25rem;
+  color: var(--nav-dark);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.navbar .submenu a:hover,
+.navbar .submenu a[aria-current='page'] {
+  background: #f3f4f6;
+  color: var(--nav-accent);
+}
+
+/* Mobile toggle, hidden on desktop */
 .navbar-toggle {
   display: none;
   flex-direction: column;
@@ -51,12 +202,22 @@
   display: block;
   width: 24px;
   height: 2px;
-  background: #ffffff;
+  background: var(--nav-text);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Mobile layout */
+/* Tablet and mobile */
+@media (max-width: 1024px) {
+  .navbar .navbar-contact {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
+  .navbar .navbar-topbar {
+    display: none;
+  }
+
   .navbar-toggle {
     display: flex;
   }
@@ -64,29 +225,64 @@
   .navbar-links {
     display: none;
     position: absolute;
-    top: 64px;
+    top: 100%;
     left: 0;
     right: 0;
     flex-direction: column;
-    gap: 0;
-    background: #1f2937;
-    padding: 0.5rem 1.5rem 1rem;
-  }
-
-  .navbar-links li {
-    border-top: 1px solid #374151;
-  }
-
-  .navbar-links a {
-    display: block;
-    padding: 0.75rem 0;
+    height: auto;
+    background: var(--nav-dark);
+    padding: 0.5rem 0 1rem;
+    max-height: 70vh;
+    overflow-y: auto;
   }
 
   .navbar nav.open .navbar-links {
     display: flex;
   }
 
-  /* Turn the three bars into an X when open */
+  .navbar-links > li > a {
+    height: auto;
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+  }
+
+  .navbar-links > li.has-submenu > a::after {
+    margin-left: auto;
+  }
+
+  .navbar-links > li {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* On mobile, submenus expand inline instead of floating */
+  .navbar .submenu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border-top: none;
+    display: none;
+    background: var(--nav-darker);
+    min-width: 0;
+    padding: 0;
+  }
+
+  .navbar-links > li.open > .submenu {
+    display: block;
+  }
+
+  .navbar .submenu a {
+    color: var(--nav-muted);
+    padding: 0.6rem 2.5rem;
+    background: transparent;
+  }
+
+  .navbar .submenu a:hover {
+    color: var(--nav-accent);
+    background: transparent;
+  }
+
   .navbar nav.open .navbar-toggle span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
